@@ -1,0 +1,142 @@
+@font-face {
+  font-family: "Digital";
+  src: url("./font/digital-7\ \(mono italic\).ttf");
+  src: url("./font/digital-7\ \(mono italic\).ttf") format("truetype");
+}
+
+body {
+  background-color: #faf9f6;
+  display: flex;
+  flex-direction: column;
+  font-family: "Courier New", Courier, monospace;
+  min-height: 100vh;
+  margin: 0px 0.5rem;
+  align-items: center;
+}
+
+#calculator {
+  background-color: #33292f;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  aspect-ratio: 9/16;
+  width: 23rem;
+  border-radius: 0.8rem;
+  margin: 10rem 0rem 0rem 0rem;
+}
+
+#screen {
+  margin-top: 4rem;
+  margin-bottom: auto;
+}
+
+#led {
+  font-family: Digital;
+  text-align: end;
+  background-color: rgb(46, 71, 46);
+  font-size: 50px;
+  margin: 0rem 1rem 0rem 1rem;
+  height: 2.7rem;
+}
+
+button {
+  padding: 1.5rem;
+  border-radius: 50%;
+  border: none;
+}
+
+#power {
+  display: flex;
+  flex-direction: row;
+  padding: 0rem 1rem 2rem 1rem;
+  gap: 1rem;
+}
+
+.power-comp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.power-comp-back {
+  margin-left: auto;
+}
+
+.symbol {
+  font-size: 20px;
+  color: #faf9f6;
+}
+
+.power-button {
+  padding: 0.9rem;
+  border-radius: 50%;
+}
+/* #power-symbols{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    color: #faf9f6;
+}
+
+.symbol{
+    font-size: 20px;
+}
+
+#power-comp{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.power-button {
+  padding: 0.9rem;
+  border-radius: 50%;
+} */
+
+.back {
+  background-color: rgb(146, 144, 17);
+}
+
+.on {
+  background-color: rgb(165, 20, 20);
+}
+
+.off {
+  background-color: rgb(25, 151, 25);
+}
+
+#work {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-evenly;
+  padding: 0rem 1rem 1rem 1rem;
+}
+
+.key {
+  text-align: center;
+  font-size: x-large;
+  width: 70px;
+  height: 70px;
+}
+
+.numbers {
+  background-color: #131212;
+  color: #faf9f6;
+}
+
+.operands {
+  background-color: #241911;
+  color: #faf9f6;
+}
+
+.equals {
+  background-color: #c99b13;
+  color: #000000;
+}
+
+footer {
+  margin-top: auto;
+  padding: 2rem;
+}
