@@ -5,9 +5,11 @@ let back = document.getElementById("back");
 let numbers = document.querySelectorAll(".numbers");
 let keys = document.querySelectorAll(".key");
 let operands = document.querySelectorAll(".operands");
+let equals = document.getElementById("equals");
+let decimal = document.getElementById("decimal");
 
-let a;
-let b;
+let a = "";
+let b = "";
 let currentOpperand;
 
 keys.forEach((key) => {
@@ -16,6 +18,9 @@ keys.forEach((key) => {
 
 on.addEventListener("click", () => {
   led.innerText = "0";
+  a = "";
+  b = "";
+  currentOpperand = "";
   keys.forEach((key) => {
     key.disabled = false;
   });
@@ -23,6 +28,9 @@ on.addEventListener("click", () => {
 
 off.addEventListener("click", () => {
   led.innerText = "";
+  a = "";
+  b = "";
+  currentOpperand = "";
   keys.forEach((key) => {
     key.disabled = true;
   });
@@ -35,14 +43,29 @@ back.addEventListener("click", () => {
   }
 });
 
+equals.addEventListener("click", () => {
+  if (a != "" || b != "") {
+    runOpperation(a, b, currentOpperand);
+  }
+});
+
+decimal.addEventListener("click", () => {
+  if (!led.textContent.includes(".")) {
+    if (currentOpperand == "") {
+      a = addValue(decimal);
+    } else {
+      b = addValue(decimal);
+    }
+  }
+});
+
 //add eventListener for numbers
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    if(a==""){
-        a = addValue(number)
-    }else{
-        b=addValue(number);
-        runOpperation(a,b,currentOpperand);
+    if (a == "" || currentOpperand == "") {
+      a = addValue(number);
+    } else {
+      b = addValue(number);
     }
   });
 });
@@ -50,10 +73,20 @@ numbers.forEach((number) => {
 //add eventlistener for operands
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
+    if (currentOpperand != "" && b != "") {
+      runOpperation(a, b, currentOpperand);
+    }
     led.innerText = "";
     currentOpperand = operand.innerText;
   });
 });
+
+//checks for more than one decimal coma------------------------------
+// function checkForComa(number){
+//   if(number.includes(".")){
+//     return;
+//   }
+// }
 
 //add addition function
 function add(a, b) {
@@ -63,7 +96,11 @@ function add(a, b) {
 //add divide function
 function divide(a, b) {
   if (b == 0) return "Cheeky fucker!";
-  return a / b;
+  let num = a / b;
+  if (num.toString().includes(".")) {
+    return num.toFixed(2);
+  }
+  return num;
 }
 
 //add subtract function
@@ -76,31 +113,51 @@ function multiply(a, b) {
   return a * b;
 }
 
-//add decimal function
-function decimal(num) {}
-
-//add equality function
-function equals(a, b) {}
-
-//add backspace event listener
-
 //add keyboard functionality
 
 //function to add num to a or b
 function addValue(button) {
-    let num;
+  let num;
   if (led.innerText == "0" || led.innerText == "") {
     led.innerText = button.innerText;
     num = led.innerText;
-    return;
+    return num;
   }
   led.innerText += button.innerText;
   num = led.innerText;
   return num;
 }
 
-function runOpperation(a, b, currentOpperand){
-    switch(currentOpperand){
-        
-    }
+function refreshValues() {
+  if (led.textContent == "ERROR!") {
+    a = "";
+    b = "";
+  } else {
+    a = led.textContent;
+    b = "";
+  }
+}
+
+function runOpperation(a, b, currentOpperand) {
+  switch (currentOpperand) {
+    case "+":
+      led.textContent = add(a, b);
+      refreshValues();
+      break;
+    case "-":
+      led.textContent = subtract(a, b);
+      refreshValues();
+      break;
+    case "×":
+      led.textContent = multiply(a, b);
+      refreshValues();
+      break;
+    case "÷":
+      led.textContent = divide(a, b);
+      refreshValues();
+      break;
+    default:
+      led.textContent = "ERROR!";
+      refreshValues();
+  }
 }
