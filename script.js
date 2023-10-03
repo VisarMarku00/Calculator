@@ -81,13 +81,6 @@ operands.forEach((operand) => {
   });
 });
 
-//checks for more than one decimal coma------------------------------
-// function checkForComa(number){
-//   if(number.includes(".")){
-//     return;
-//   }
-// }
-
 //add addition function
 function add(a, b) {
   return a + b;
@@ -112,8 +105,6 @@ function subtract(a, b) {
 function multiply(a, b) {
   return a * b;
 }
-
-//add keyboard functionality
 
 //function to add num to a or b
 function addValue(button) {
