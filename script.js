@@ -36,6 +36,21 @@ off.addEventListener("click", () => {
   });
 });
 
+function resetCalc(){
+  a = "";
+  b = "";
+  currentOpperand = "";
+  keys.forEach((key) => {
+    if(!key.disabled){
+      led.innerText = "";
+      key.disabled = true;
+    }else{
+      led.innerText = "0";
+      key.disabled = false;
+    }
+  });
+}
+
 back.addEventListener("click", () => {
   if (led.innerText != "0" && led.innerText != "") {
     led.innerText = led.innerText.slice(0, -1);
@@ -43,13 +58,28 @@ back.addEventListener("click", () => {
   }
 });
 
+function backspace(){
+  if (led.innerText != "0" && led.innerText != "") {
+    led.innerText = led.innerText.slice(0, -1);
+    a = led.innerText;
+  }
+}
+
 equals.addEventListener("click", () => {
+  equalsFunction();
+});
+
+function equalsFunction() {
   if (a != "" || b != "") {
     runOpperation(a, b, currentOpperand);
   }
-});
+}
 
 decimal.addEventListener("click", () => {
+  decimalPoint(decimal);
+});
+
+function decimalPoint(decimal) {
   if (!led.textContent.includes(".")) {
     if (currentOpperand == "") {
       a = addValue(decimal);
@@ -57,33 +87,67 @@ decimal.addEventListener("click", () => {
       b = addValue(decimal);
     }
   }
+}
+
+document.addEventListener("keydown", function (event) {
+  const key = event.key;
+  if (!key) return;
+
+  if (["+", "-", "/", "*"].includes(key)) {
+    selectOperand(key);
+  } else if (key >= "0" && key <= "9") {
+    addValueToAorB(key);
+  } else if (key == ".") {
+    decimalPoint(key);
+  } else if (key == "=") {
+    equalsFunction();
+  }else if(key == "Backspace"){
+    backspace();
+  }else if(key == "Enter"){
+    resetCalc();
+  }
 });
 
 //add eventListener for numbers
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    if (a == "" || currentOpperand == "") {
-      a = addValue(number);
-    } else {
-      b = addValue(number);
-    }
+    addValueToAorB(number.innerText);
   });
 });
+
+function addValueToAorB(number) {
+  if (a == "" || currentOpperand == "") {
+    a = addValue(number);
+  } else {
+    b = addValue(number);
+  }
+}
 
 //add eventlistener for operands
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
-    if (currentOpperand != "" && b != "") {
-      runOpperation(a, b, currentOpperand);
+    let operandValue = operand.innerText;
+    if (operandValue == "÷") {
+      selectOperand("/");
+    } else if (operandValue == "×") {
+      selectOperand("*");
+    } else {
+      selectOperand(operandValue);
     }
-    led.innerText = "";
-    currentOpperand = operand.innerText;
   });
 });
 
+function selectOperand(operand) {
+  if (currentOpperand != "" && b != "") {
+    runOpperation(a, b, currentOpperand);
+  }
+  led.innerText = "";
+  currentOpperand = operand;
+}
+
 //add addition function
 function add(a, b) {
-  return a + b;
+  return Number(a) + Number(b);
 }
 
 //add divide function
@@ -107,14 +171,14 @@ function multiply(a, b) {
 }
 
 //function to add num to a or b
-function addValue(button) {
+function addValue(key) {
   let num;
   if (led.innerText == "0" || led.innerText == "") {
-    led.innerText = button.innerText;
+    led.innerText = key;
     num = led.innerText;
     return num;
   }
-  led.innerText += button.innerText;
+  led.innerText += key;
   num = led.innerText;
   return num;
 }
@@ -139,11 +203,11 @@ function runOpperation(a, b, currentOpperand) {
       led.textContent = subtract(a, b);
       refreshValues();
       break;
-    case "×":
+    case "*":
       led.textContent = multiply(a, b);
       refreshValues();
       break;
-    case "÷":
+    case "/":
       led.textContent = divide(a, b);
       refreshValues();
       break;
